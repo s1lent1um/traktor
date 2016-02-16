@@ -1,0 +1,17 @@
+{
+    "name": "silentium/traktor",
+    "authors": [
+        {
+            "name": "silentum",
+            "email": "sv@silentium.me"
+        }
+    ],
+    "minimum-stability": "beta",
+    "autoload": {
+        "psr-4": {
+            "Runner\\": "runner/",
+            "Bot\\": "bot/"
+        }
+    },
+    "require": {}
+}

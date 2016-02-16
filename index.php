@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Created by silentium
+ * Date: 16.02.16
+ * Time: 23:19
+ */
+
+include 'vendor/autoload.php';
+(new Runner\Runner())->run();
