@@ -9,5 +9,16 @@ namespace Runner;
 
 class Job
 {
+    /** @var  Runner */
+    protected $runner;
 
+    public function __construct(Runner $runner)
+    {
+        $this->runner = $runner;
+    }
+
+    public function run()
+    {
+
+    }
 }

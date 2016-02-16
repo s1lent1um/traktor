@@ -12,14 +12,15 @@ use \Bot\QueueManager;
 class Runner
 {
     /** @var  QueueManager */
-    protected $queue;
+    public $queueManager;
+
     protected $defaultJob = 'help';
 
     protected function init()
     {
         $redis = new \Redis();
         $redis->connect('127.0.0.1');
-        $this->queue = new QueueManager($redis);
+        $this->queueManager = new QueueManager($redis);
     }
 
     public function handleException(\Exception $exception)
@@ -49,7 +50,7 @@ class Runner
     protected function getJob($argv)
     {
         $className = $this->getJobClass($argv);
-        return new $className();
+        return new $className($this);
     }
 
     public function run()
@@ -58,7 +59,7 @@ class Runner
             $this->init();
 
             $job = $this->getJob($_SERVER['argv']);
-            var_dump($job);
+            $job->run();
         } catch (\Exception $e) {
             $this->handleException($e);
         }

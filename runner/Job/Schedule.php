@@ -11,5 +11,9 @@ use Runner\Job;
 
 class Schedule extends Job
 {
-
+    public function run()
+    {
+        $queue = $this->runner->queueManager->getQueue('download');
+        $queue->push('');
+    }
 }
