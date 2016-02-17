@@ -33,10 +33,17 @@ class RedisQueue implements QueueInterface
     /**
      * @inheritdoc
      */
-    public function pop($blocking = 0)
+    public function pop()
     {
-        return $blocking
-            ? $this->redis->blPop($this->name)
-            : $this->redis->lPop($this->name);
+        return $this->redis->lPop($this->name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function listen($timeout)
+    {
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $this->redis->blPop($this->name, $timeout);
     }
 }

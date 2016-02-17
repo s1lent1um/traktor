@@ -16,8 +16,13 @@ interface QueueInterface
     public function push($data);
 
     /**
-     * @param int $blocking
      * @return string
      */
-    public function pop($blocking = 0);
+    public function pop();
+
+    /**
+     * @param $timeout
+     * @return string
+     */
+    public function listen($timeout);
 }

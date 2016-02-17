@@ -13,6 +13,17 @@ class Help extends Job
 {
     public function run()
     {
-        // TODO: Implement run() method.
+        echo <<<TEXT
+Usage:
+  bot [options] [arguments]
+
+Available commands:
+  schedule        Schedule urls from file to download
+  download        Download scheduled urls
+  help            Show this help
+
+
+TEXT;
+
     }
 }

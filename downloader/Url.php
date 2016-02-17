@@ -15,9 +15,24 @@ class Url implements \JsonSerializable
 
     public function __construct($url, $fromSerialized = false)
     {
-        $this->url = $url;
-        $this->validatePattern();
-        $this->validateDomain();
+        if ($fromSerialized) {
+            $this->url = $url['url'];
+            $this->domain = $url['domain'];
+            $this->validated = $url['validated'];
+        } else {
+            $this->url = $url;
+            $this->validatePattern();
+            $this->validateDomain();
+        }
+    }
+
+    /**
+     * @param $json
+     * @return Url
+     */
+    public static function fromJson($json)
+    {
+        return new self(json_decode($json, true), true);
     }
 
     public function validatePattern()
