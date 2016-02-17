@@ -7,7 +7,12 @@
 
 namespace Runner\Job;
 
-class Help
-{
+use Runner\Job;
 
+class Help extends Job
+{
+    public function run()
+    {
+        // TODO: Implement run() method.
+    }
 }

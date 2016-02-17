@@ -98,21 +98,21 @@ install-composer() {
     fi
 }
 
-add-php54-repository() {
-  configured php54
-  if [ "$?" -gt 0 ]; then
-    add-apt-repository -y ppa:ondrej/php5-oldstable
-    exiterr $? "Failed to add the php5 repository"
-    configured php54 ok
-  fi
-}
-
 add-php55-repository() {
   configured php55
   if [ "$?" -gt 0 ]; then
-    add-apt-repository -y ppa:ondrej/php5
+    add-apt-repository -y ppa:ondrej/php5-oldstable
     exiterr $? "Failed to add the php5 repository"
     configured php55 ok
+  fi
+}
+
+add-php56-repository() {
+  configured php56
+  if [ "$?" -gt 0 ]; then
+    add-apt-repository -y ppa:ondrej/php5
+    exiterr $? "Failed to add the php5 repository"
+    configured php56 ok
   fi
 }
 

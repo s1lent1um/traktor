@@ -5,7 +5,7 @@
  * Time: 1:04
  */
 
-namespace Bot;
+namespace Downloader;
 
 interface QueueInterface
 {

@@ -6,7 +6,7 @@
  * Time: 0:05
  */
 
-namespace Bot;
+namespace Downloader;
 
 class RedisQueue implements QueueInterface
 {

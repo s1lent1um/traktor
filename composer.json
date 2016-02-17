@@ -10,8 +10,11 @@
     "autoload": {
         "psr-4": {
             "Runner\\": "runner/",
-            "Bot\\": "bot/"
+            "Downloader\\": "downloader/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": ""
     },
     "require": {}
 }

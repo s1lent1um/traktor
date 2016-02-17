@@ -7,7 +7,7 @@
 
 namespace Runner;
 
-use \Bot\QueueManager;
+use \Downloader\QueueManager;
 
 class Runner
 {
@@ -15,6 +15,11 @@ class Runner
     public $queueManager;
 
     protected $defaultJob = 'help';
+
+    public function getBasePath()
+    {
+        return dirname(__DIR__);
+    }
 
     protected function init()
     {
@@ -25,7 +30,25 @@ class Runner
 
     public function handleException(\Exception $exception)
     {
-        // TODO: show exception data
+        $code = $exception->getCode() ? "[{$exception->getCode()}]" : '';
+
+        echo "\033[90m" . get_class($exception) . "{$code}:\033[0m {$exception->getMessage()}\n";
+        if ($exception instanceof UsageException) {
+            $this->getJob([])->run();
+        } else {
+            echo "in {$exception->getFile()}:{$exception->getLine()}\nTrace:\n";
+            $trace = array_merge($exception->getTrace(), ['{main}']);
+            foreach ($trace as $k => $step) {
+                if (is_array($step)) {
+                    $function = isset($step['class'])
+                        ? $step['class'] . $step['type'] . $step['function']
+                        : $step['function'];
+                    echo "  #{$k} {$step['file']}[{$step['line']}]: {$function}()\n";
+                } else {
+                    echo "  #{$k} $step\n";
+                }
+            }
+        }
     }
 
     /**
@@ -50,7 +73,7 @@ class Runner
     protected function getJob($argv)
     {
         $className = $this->getJobClass($argv);
-        return new $className($this);
+        return new $className($this, $argv);
     }
 
     public function run()
@@ -58,8 +81,7 @@ class Runner
         try {
             $this->init();
 
-            $job = $this->getJob($_SERVER['argv']);
-            $job->run();
+            $this->getJob($_SERVER['argv'])->run();
         } catch (\Exception $e) {
             $this->handleException($e);
         }

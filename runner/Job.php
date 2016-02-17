@@ -7,18 +7,18 @@
 
 namespace Runner;
 
-class Job
+abstract class Job
 {
     /** @var  Runner */
     protected $runner;
+    /** @var array command line arguments vector */
+    protected $argv = [];
 
-    public function __construct(Runner $runner)
+    public function __construct(Runner $runner, array $argv = [])
     {
         $this->runner = $runner;
+        $this->argv = $argv;
     }
 
-    public function run()
-    {
-
-    }
+    abstract public function run();
 }

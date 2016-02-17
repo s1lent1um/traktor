@@ -10,7 +10,7 @@ install software-properties-common # changed in 14.04
 install libpcre3-dev
 install libcurl3-openssl-dev
 
-add-php54-repository
+add-php56-repository
 apt-get update
 
 install pkg-config
