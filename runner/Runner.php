@@ -76,12 +76,12 @@ class Runner
         return new $className($this, $argv);
     }
 
-    public function run()
+    public function run($argv)
     {
         try {
             $this->init();
 
-            $this->getJob($_SERVER['argv'])->run();
+            $this->getJob($argv)->run();
         } catch (\Exception $e) {
             $this->handleException($e);
         }

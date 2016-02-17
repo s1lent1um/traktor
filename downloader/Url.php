@@ -12,6 +12,8 @@ class Url implements \JsonSerializable
     protected $url;
     protected $domain;
     protected $validated = false;
+    public $extension;
+    public $error;
 
     public function __construct($url, $fromSerialized = false)
     {
@@ -19,10 +21,13 @@ class Url implements \JsonSerializable
             $this->url = $url['url'];
             $this->domain = $url['domain'];
             $this->validated = $url['validated'];
+            $this->extension = $url['extension'];
+            $this->error = $url['error'];
         } else {
             $this->url = $url;
             $this->validatePattern();
             $this->validateDomain();
+            $this->validateExtension();
         }
     }
 
@@ -38,12 +43,15 @@ class Url implements \JsonSerializable
     public function validatePattern()
     {
         $this->validated = (bool)preg_match(
-            '@^https?://(?:(?:\d{1,3}\.){3}\d{1,3}|((?:\w+\.)+[a-z]{2,5}))(?:/|$)@',
+            '@^https?://(?:(?:\d{1,3}\.){3}\d{1,3}|((?:\w+\.)+[a-zA-Z]{2,5}))(?:/|$)@',
             $this->url,
             $m
         );
         if (isset($m[1])) {
             $this->domain = $m[1];
+        }
+        if (!$this->validated) {
+            $this->error = 'Malformed Url';
         }
     }
 
@@ -51,6 +59,16 @@ class Url implements \JsonSerializable
     {
         if ($this->domain) {
             $this->validated = checkdnsrr($this->domain, 'A');
+            if (!$this->validated) {
+                $this->error = 'Invalid domain name';
+            }
+        }
+    }
+
+    public function validateExtension()
+    {
+        if (preg_match('@(\.[a-z0-9]{1,5})$@i', $this->url, $m)) {
+            $this->extension = $m[1];
         }
     }
 
@@ -67,6 +85,10 @@ class Url implements \JsonSerializable
     {
         return [
             'url' => $this->url,
+            'domain' => $this->domain,
+            'validated' => $this->validated,
+            'extension' => $this->extension,
+            'error' => $this->error,
         ];
     }
 

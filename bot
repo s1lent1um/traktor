@@ -7,4 +7,4 @@
  */
 
 include 'vendor/autoload.php';
-(new Runner\Runner())->run();
+(new Runner\Runner())->run($_SERVER['argv']);
