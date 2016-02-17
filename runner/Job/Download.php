@@ -41,7 +41,6 @@ class Download extends Job
 
             $this->saveFile($curl, $url->extension ? false : $m[1], $tmp);
             $doneQueue->push($url);
-            break;
         }
     }
 
