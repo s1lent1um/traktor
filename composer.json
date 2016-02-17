@@ -13,8 +13,7 @@
             "Downloader\\": "downloader/"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": ""
-    },
-    "require": {}
+    "require": {
+        "phpunit/phpunit": "^4.8"
+    }
 }

@@ -27,12 +27,13 @@ class Schedule extends Job
         }
 
         $queue = $this->runner->queueManager->getQueue('download');
-        $fail = $this->runner->queueManager->getQueue('fail');
-        while ($reader->get()) {
-
+        $failedQueue = $this->runner->queueManager->getQueue('fail');
+        while ($url = $reader->get()) {
+            if ($url->isValid()) {
+                $queue->push($url);
+            } else {
+                $failedQueue->push($url);
+            }
         }
-
-
-        $queue->push('');
     }
 }
